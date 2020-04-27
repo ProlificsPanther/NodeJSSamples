@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SIGNUP</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://rawgit.com/vitmalina/w2ui/master/dist/w2ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://rawgit.com/vitmalina/w2ui/master/dist/w2ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+	<!-- <script type="text/javascript" src="signup_client.js"></script> -->
+<body bgcolor="#4c6479">
+<div id="form" style="position:absolute; width: 48%; height: 35%; margin-top: 17%; left: 26%;background-color: #93c6ec">
+    <div class="w2ui-page page-0">
+	<h1  style="margin-left:35%"> SIGNUP PAGE </h1>
+        <div class="w2ui-field" style="margin-top: 10%; margin-left:8%;">
+            
+            <label><font size="3" color="black"><b>Name: </b></font></label>
+            <div>
+                <input name="user_name" type="text" style="font-size: 10pt" maxlength="20" size="40"/>
+            </div>
+        </div>
+   
+        <div class="w2ui-field" style="margin-left: 8%;">
+            <label><font size="3" color="black"><b>Password:</b></font></label>
+            <div>
+                <input name="passwordtxt" type="password" style="font-size: 10pt" maxlength="20" size="40"></input>
+            </div>
+        </div>
+		 <div class="w2ui-buttons" style = "background : #b1cdcd;margin-top: -8%;">
+                <button class="w2ui-btn btn btn-5" name="save"><font size="3"><b>SIGNUP</b></font></button><br>
+    <br><p>Already a User? Click here to  <a href="/index">Login</a> </p>
+    </div>
+    	</div>
+	</div>
+        <script type="text/javascript">
+    $(function () {
+    $('#form').w2form({ 
+        name  : 'form',
+        url   : 'server/post',
+        fields: [
+            { field: 'user_name', type: 'text', required: true },
+            { field: 'passwordtxt',  type: 'text', required: true }
+            
+        ],
+        actions: {
+            reset: function () {
+                this.clear();
+            },
+            save: function () {
+                var name = document.getElementById('user_name').value;
+                var password = document.getElementById('passwordtxt').value;
+                alert(name);
+                
+                                var request = $.ajax({
+                                    
+                    type: 'POST',
+                    url: '/user_data/signup_router_get', 
+                    async: false,
+                    data:{ user_name : name, passwordtxt : password }, 
+                    //dataType: 'json',
+                    success: function (data) {
+                    //populate('#form', data);
+                    console.log("RESPONSE dattaa",data);
+                    window.open('http://10.0.10.176:8000/index', '_self');               
+                    },
+                
+            error: function (data,err) {
+                console.log("err",err,unescape(data.name));
+            }
+                
+                
+                                });
+                                
+
+                //this.save();
+            }
+        }
+    });
+});
+</script>
+	</body>
+	</html>
+	

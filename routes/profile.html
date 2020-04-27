@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>retreival</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://rawgit.com/vitmalina/w2ui/master/dist/w2ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://rawgit.com/vitmalina/w2ui/master/dist/w2ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="style.css">
+            <style>
+    .chatbox
+{
+right: 0;
+top: 60%;
+height:40%;
+width: 30%;
+position: absolute;
+}
+    </style>
+</head>
+<body bgcolor="#4c6479">
+<div id="getform" style="width: 48%; height: 35%; margin-top: 11%; left: 25%;">
+    <div class="w2ui-page page-0">
+	<h1 style="padding-left:34%"> PROFILE PAGE </h1>
+<br><br>	
+	<div class="w2ui-field">
+            <label>Hobby:</label>
+            <div>
+                <input name="hobby" type="text" maxlength="100" size="60"/>
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>Graduate:</label>
+            <div>
+                <input name="graduate" type="text" maxlength="100" size="60"/>
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>Web Series:</label>
+            <div>
+                <input name="webseries" type="text" maxlength="100" size="60"/>
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>TV-Series:</label>
+            <div>
+                <input name="tvseries" type="text" maxlength="100" size="60"/>
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>Name:</label>
+            <div>
+                <input name="name" id = "name" type="text" maxlength="100" size="60"/>
+            </div>
+        </div>
+		<div class="w2ui-field">
+            <label>Gaming:</label>
+            <div>
+                <input name="gaming" type="text" maxlength="100" size="60"/>
+            </div>
+        </div>
+		<div class="w2ui-field">
+            <label>Movie:</label>
+            <div>
+                <input name="movie" type="text" maxlength="100" size="60"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="w2ui-buttons" style = "background : #b1cdcd;">
+        <button class="w2ui-btn" name="save">Logout</button>
+    </div>
+</div>
+<div  style="background-color: #4c6479;">
+        <iframe src="http://10.0.10.176:3000/" class="chatbox" frameborder="0" >
+<p>Your browser does not support iframes.</p>
+
+</iframe>
+</div>
+<script type="text/javascript">
+    /* $('#iframe1').contents().find('username-submit').click(function){
+     $('#iframe1').contents().find('#username').val("kartikey@gmail.com");
+ }*/
+         $(function () {
+    
+            $('#getform').w2form({
+            name  : 'form',
+            url   : 'server/post',
+            fields: [
+                { field: 'hobby',   type: 'text'},
+                { field: 'graduate',   type: 'text'},
+                { field: 'webseries',   type: 'text'},
+                { field: 'tvseries',   type: 'text'},
+                { field: 'name', type: 'text'},
+                { field: 'gaming', type: 'text'},
+                { field: 'movie', type: 'text'}
+
+            ],
+            actions: {
+                reset: function () {
+                    this.clear();
+                },
+                save: function () {
+
+                    var request = $.ajax({
+                        type: 'GET',
+                        url: 'http://10.0.10.176:8000/logout',
+                        async: false,
+                        data:{ },
+                       // dataType: 'json',
+                        success: function (data) {
+                            console.log("Logout done");
+                             window.open('http://10.0.10.176:8000/index', '_self'); 
+                            },
+                        error: function (data,err) {
+                            console.log("err", err, unescape(data.name));
+                        }
+                        
+                    });
+
+                    // this.save();
+                }
+            }
+        });
+            
+    var username;   
+        
+
+                    
+var request = $.ajax({
+                        type: 'GET',
+                        url: 'http://10.0.10.176:8000/profile_data/profile_router_get_response',
+                        async: false,
+                        data:{ },
+                        //dataType: 'json',
+                        success: function (data) {
+
+                            
+                            username = data;
+                            console.log("Response", username);
+                          
+                            
+                            
+
+                        },
+                        error: function (data,err) {
+                            console.log("err", err, unescape(data.name));
+                        }
+                        
+
+                    });
+                    
+                        var request = $.ajax({
+                        type: 'GET',
+                        url: 'http://10.0.10.176:8000/profile_data/profile_router_get_receive',
+                        async: false,
+                        data:{user_name: username },
+                        //dataType: 'json',
+                        success: function (data) {
+                            
+                            for(i=0;i<=10;i++){
+                                console.log(data[i].name);
+                              if(data[i].name == username) {
+                                console.log(data[i]+"dataaa");
+                                populate('#getform', data[i]);
+
+         
+                            }
+                            }
+                            
+
+                           
+                            console.log("Get dattaa", data);
+                            console.log("Get NAME", username);
+
+                        },
+                        error: function (data,err) {
+                            console.log("err", err, unescape(data.name));
+                        }
+                        
+                    });
+                  
+          
+                    function populate(frm, data) {
+
+
+                            $.each(data, function (key, value) {
+                            $('[name=' + key + ']', frm).val(value);
+                            });
+                            }
+
+    });
+</script>
+</body>
+</html>

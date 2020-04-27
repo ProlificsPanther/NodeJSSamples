@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LOGIN</title>
+	
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://rawgit.com/vitmalina/w2ui/master/dist/w2ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://rawgit.com/vitmalina/w2ui/master/dist/w2ui.min.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style>
+body {
+    background-color: #4c6479;
+}
+.glyphicon {
+font-size: 15px;
+}
+</style>
+	
+  
+  
+    </head>
+    
+	<!-- <script type="text/javascript" src="login_client.js"></script> -->
+<body>
+<div id="form" style="position:absolute; width: 48%; height: 35%; margin-top: 17%; left: 26%;background-color: #93c6ec">
+    <div class="w2ui-page page-0">
+	<h3  style="padding-left:35%;"> LOGIN PAGE </h3>
+	<div style="margin-left:98%;margin-top:-4%;">
+	<!--<label onclick="imgclk()" style="font-size: 18px;font-weight: bold;"> ?</label> -->
+	<a href="#" onclick="imgclk()" ><span class="glyphicon glyphicon-question-sign"></span></a>
+		<!-- <img src="qm.png" onclick="imgclk()">
+	</a> -->
+</div>
+        <div class="w2ui-field" style="margin-top: 10%; margin-left:10%;">
+            <label><font size="3" color="black"><b>Name: </b></font></label>
+            <div>
+                <input name="user_name" type="text" style="font-size: 10pt" maxlength="20" size="40"/>
+            </div>
+        </div>
+   
+        <div class="w2ui-field" style="margin-left: 10%;">
+            <label><font size="3" color="black"><b>Password:</b></font></label>
+            <div>
+                <input name="passwordtxt" type="password" style="font-size: 10pt" maxlength="20" size="40"></input>
+            </div>
+        </div>
+		 <div class="w2ui-buttons" style = "background : #b1cdcd;">
+                <button class="w2ui-btn btn btn-5" name="save"><font size="3"><b>Login</b></font></button>
+                <button class="w2ui-btn btn btn-5" name="signup" onclick="myFunction()"><font size="3"><b>Signup</b></font></button>
+    </div>
+	</div>
+	</div>
+    <script type="text/javascript">
+    	function imgclk(){
+    		window.open("http://10.11.50.60:3000/","","height=600,width=450");
+    	}
+        function myFunction(){
+            window.open('http://10.0.10.176:8000/user_data/signup_router_get', '_self');
+        }
+        $(function () {
+    $('#form').w2form({ 
+        name  : 'form',
+        url   : 'server/post',
+        fields: [
+            { field: 'user_name', type: 'text', required: true },
+            { field: 'passwordtxt',  type: 'text', required: true }
+            
+        ],
+        actions: {
+            reset: function () {
+                this.clear();
+            },
+            save: function () {
+                var name = document.getElementById('user_name').value;
+                var password = document.getElementById('passwordtxt').value;
+                alert(name);
+                
+                                var request = $.ajax({
+                                    
+                    type: 'POST',
+                    url: 'http://10.0.10.176:8000/index', 
+                    async: false,
+                    data:{ user_name : name, passwordtxt : password }, 
+                    //dataType: 'json',
+                    success: function (data) {
+                    //populate('#form', data);
+                    console.log("RESPONSE dattaa",data);
+
+                    
+                     //window.open('http://10.0.10.176:8000/profile_data/profile_router_get', '_self');
+                    },
+                
+            error: function (data,err) {
+                console.log("err",err,unescape(data.name));
+            }
+                
+                
+                                });
+                                
+                                var request = $.ajax({
+
+                                    
+                    type: 'POST',
+
+                    url: 'http://10.0.10.176:8000/profile_data/login_router_post', 
+                    async: false,
+                    data:{ user_name : name, passwordtxt : password }, 
+                    //dataType: 'json',
+                    success: function (data) {
+                    //populate('#form', data);
+                    console.log("hi");
+                    console.log("RESPONSE dattaa",data);
+
+                    
+                     window.open('http://10.0.10.176:8000/profile_data/profile_router_get', '_self');
+                    },
+                
+            error: function (data,err) {
+                console.log("err",err,unescape(data.name));
+            }
+                
+                
+                                });
+                                
+
+                //this.save();
+            }
+        }
+    });
+});
+    </script>
+	</body>
+	</html>
+	
