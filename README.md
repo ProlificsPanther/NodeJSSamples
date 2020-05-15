@@ -1,4 +1,5 @@
 # NodeJSSamples
+2 examples are provided here.
 Please switch branches for the actual code by clicking the branches link above.
 
 1) Mongoose Multiple Schema <br>
